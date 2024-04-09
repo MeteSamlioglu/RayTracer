@@ -21,7 +21,7 @@ class ImagePlane
 {
     public:
         ImagePlane(int planeWidth_, int planeHeight_);
-        ~ImagePlane();
+        // ~ImagePlane();
         
         void WriteTga(const char *outfile, bool scale_color = true);
         void pixel(int x, int y, RGBColor pixel);
