@@ -18,6 +18,7 @@ double RGBColor::getG() const
 {
     return g;
 }
+//RGB
 double RGBColor::getB() const
 {
     return b;
