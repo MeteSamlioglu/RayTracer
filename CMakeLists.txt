@@ -8,18 +8,21 @@ set(PROJECT_SOURCE_DIR ${PROJECT_DIR}/src)
 
 set(PROJECT_SOURCES
 	    ${PROJECT_SOURCE_DIR}/Scene.cpp
+            ${PROJECT_SOURCE_DIR}/ImagePlane.cpp
             ${PROJECT_SOURCE_DIR}/LightSource.cpp
             ${PROJECT_SOURCE_DIR}/Camera.cpp
+            ${PROJECT_SOURCE_DIR}/Vector.cpp
             ${PROJECT_SOURCE_DIR}/Material.cpp
             ${PROJECT_SOURCE_DIR}/Mesh.cpp
             ${PROJECT_SOURCE_DIR}/main.cpp)
 set(PROJECT_HEADERS
             ${PROJECT_SOURCE_DIR}/Scene.hpp
+            ${PROJECT_SOURCE_DIR}/ImagePlane.hpp
             ${PROJECT_SOURCE_DIR}/LightSource.hpp
- 	    ${PROJECT_SOURCE_DIR}/Camera.hpp
+ 	    ${PROJECT_SOURCE_DIR}/Vector.hpp
+            ${PROJECT_SOURCE_DIR}/Camera.hpp
             ${PROJECT_SOURCE_DIR}/Material.hpp
             ${PROJECT_SOURCE_DIR}/Mesh.hpp
-            ${PROJECT_SOURCE_DIR}/main.hpp
             )
 
 include_directories(${PROJECT_INCLUDE_DIR})

@@ -4,23 +4,23 @@
 class Vector
 {
     Vector();
-    Vector(const Vector& v); //Copy constructor
-    Vector(float x, float y, float z);
+    // Vector(const Vector& v); //Copy constructor
+    // Vector(float x, float y, float z);
     
-    virtual ~Vector();
+    // virtual ~Vector();
 
-    float normalize();
-    Vector normalized(); 
+    // float normalize();
+    // Vector normalized(); 
     
-    Vector& operator =(const Vector& v);
-	Vector& operator +=(const Vector& v);
-	Vector& operator -=(const Vector& v);
-	Vector& operator *=(float f);
-	Vector& operator /=(float f);
-	Vector operator -() const;
+    // Vector& operator =(const Vector& v);
+	// Vector& operator +=(const Vector& v);
+	// Vector& operator -=(const Vector& v);
+	// Vector& operator *=(float f);
+	// Vector& operator /=(float f);
+	// Vector operator -() const;
     
-    private:
-        float x, y, z;
+    // private:
+    //     float x, y, z;
 };
 
 #endif
