@@ -4,23 +4,30 @@
 class Vector
 {
     Vector();
-    // Vector(const Vector& v); //Copy constructor
-    // Vector(float x, float y, float z);
+    Vector(double val);
+    Vector(double x, double y, double z);
     
-    // virtual ~Vector();
+    Vector crossProduct(const Vector& v) const;
+    double Vector::getVectorLength() const;
+    float Vector::dotProduct(Vector const& v) const;
+    
+    Vector operator + (Vector const & v) const;
+    Vector& operator +=(Vector const &v);
+    Vector operator *(Vector const& v) const;
+    Vector& operator *=(Vector const &v);
+    Vector operator -(Vector const &v) const;
+    Vector& operator -=(Vector const &v);
+    Vector operator / (Vector const &v) const;
+    Vector& operator /= (Vector const &v);
 
-    // float normalize();
-    // Vector normalized(); 
+    Vector operator /(double s) const;
+    Vector& operator /= (double val);
+    Vector operator *(double s) const;
+    Vector& operator *=(double s);
     
-    // Vector& operator =(const Vector& v);
-	// Vector& operator +=(const Vector& v);
-	// Vector& operator -=(const Vector& v);
-	// Vector& operator *=(float f);
-	// Vector& operator /=(float f);
-	// Vector operator -() const;
-    
-    // private:
-    //     float x, y, z;
+
+    private:
+        double x, y, z;
 };
 
 #endif
