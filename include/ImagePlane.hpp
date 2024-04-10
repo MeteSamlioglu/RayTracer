@@ -23,7 +23,7 @@ class ImagePlane
         ImagePlane(int planeWidth_, int planeHeight_);
         // ~ImagePlane();
         
-        void WriteTga(const char *outfile, bool scale_color = true);
+        void WritePpm(const char *outfile, bool scale_Color = true);
         void pixel(int x, int y, RGBColor pixel);
         void setPixel(int x, int y, RGBColor pixel);
         RGBColor getPixel(int x, int y);

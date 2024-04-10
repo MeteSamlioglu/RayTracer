@@ -35,53 +35,28 @@ ImagePlane::ImagePlane(int planeWidth_, int planeHeight_)
 }
 
 
-void ImagePlane::WriteTga(const char *outfile, bool scale_color)
+void ImagePlane::WritePpm(const char *outfile, bool scale_color)
 {
-    FILE *fp = fopen(outfile, "w");
+    FILE *fp = fopen(outfile, "wb"); // Notice the "b" for binary mode
     if (fp == NULL)
     {
-        perror("ERROR: Image::WriteTga() failed to open file for writing!\n");
+        perror("ERROR: Image::WritePpm() failed to open file for writing!\n");
         exit(EXIT_FAILURE);
     }
+
     int _width = getWidth();
     int _height = getHeight();
     double _max = getMax();
 
-    // write 24-bit uncompressed targa header
-    // thanks to Paul Bourke (http://local.wasp.uwa.edu.au/~pbourke/dataformats/tga/)
-    putc(0, fp);
-    putc(0, fp);
-    
-    putc(2, fp); // type is uncompressed RGB
-    
-    putc(0, fp);
-    putc(0, fp);
-    putc(0, fp);
-    putc(0, fp);
-    putc(0, fp);
-    
-    putc(0, fp); // x origin, low byte
-    putc(0, fp); // x origin, high byte
-    
-    putc(0, fp); // y origin, low byte
-    putc(0, fp); // y origin, high byte
+    // Write PPM header
+    // P6 format indicates it is a binary file with RGB colors
+    fprintf(fp, "P6\n%d %d\n255\n", _width, _height);
 
-    putc(_width & 0xff, fp); // width, low byte
-    putc((_width & 0xff00) >> 8, fp); // width, high byte
-
-    putc(_height & 0xff, fp); // height, low byte
-    putc((_height & 0xff00) >> 8, fp); // height, high byte
-
-    putc(24, fp); // 24-bit color depth
-
-    putc(0, fp);
-
-    // write the raw pixel data in groups of 3 bytes (BGR order)
+    // Write the raw pixel data in RGB order
     for (int y = 0; y < _height; y++)
     {
         for (int x = 0; x < _width; x++)
         {
-            // if color scaling is on, scale 0.0 -> _max as a 0 -> 255 unsigned byte
             unsigned char rbyte, gbyte, bbyte;
             if (scale_color)
             {
@@ -98,15 +73,15 @@ void ImagePlane::WriteTga(const char *outfile, bool scale_color)
                 gbyte = (unsigned char)(g * 255);
                 bbyte = (unsigned char)(b * 255);
             }
-            putc(bbyte, fp);
-            putc(gbyte, fp);
-            putc(rbyte, fp);
+            // Write the pixels in RGB order
+            fwrite(&rbyte, sizeof(unsigned char), 1, fp);
+            fwrite(&gbyte, sizeof(unsigned char), 1, fp);
+            fwrite(&bbyte, sizeof(unsigned char), 1, fp);
         }
     }
 
     fclose(fp);
 }
-
 RGBColor ImagePlane::getPixel(int x, int y)
 { 
     return pixelMap[x][y];

@@ -1,0 +1,4 @@
+xml parser
+threading while setting pixel map
+better algorithm other than O^2 (tree maybe ??)
+ppm writer

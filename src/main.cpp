@@ -45,7 +45,7 @@ void Scene::traceRays(std::string file)
             image.setPixel(x, y, castRay(x, y));
         }
     }
-       image.WriteTga(file.c_str(), true);
+       image.WritePpm(file.c_str(), true);
 
 }
 RGBColor Scene::castRay(int x, int y)
@@ -61,7 +61,7 @@ RGBColor Scene::castRay(int x, int y)
         if (intersection == true) 
         {
             //std::cout<<"Pixel is returned"<<std::endl;
-            return RGBColor(1.0, 1.0, 1.0); // Set To white
+            return RGBColor(1.0, 1.0, 1.0); // Set interesction points to white
         }
     }
 
@@ -72,8 +72,10 @@ RGBColor Scene::castRay(int x, int y)
 int main()
 {
     Scene firstScene(500, 500);
+    
     std::cout<<"Program is on run"<<std::endl;
-    std::string outputFile = "firstScene.tga";
+    
+    std::string outputFile = "firstScene.ppm";
 
     firstScene.traceRays(outputFile);
 }
