@@ -1,10 +1,14 @@
 /*Sphere.cpp*/
 #include"Sphere.hpp"
 #include"IntersectionPoint.hpp"
-Sphere::Sphere(double radius_, Vector centerPoint_)
-    : radius(radius_), centerPoint(centerPoint_)
+Sphere::Sphere(double radius_, Vector centerPoint_, RGBColor color_)
+    : radius(radius_), centerPoint(centerPoint_), color(color_)
 {}
-IntersectionPoint Sphere::checkIntersection(Ray ray) const
+RGBColor Sphere::getColor() const
+{
+    return color;
+}
+IntersectionPoint Sphere::checkIntersection(Ray ray) 
 {
     IntersectionPoint Point = IntersectionPoint(); //default intersection point 
     double roots, root1, root2, distance = 0.0;
@@ -47,6 +51,6 @@ IntersectionPoint Sphere::checkIntersection(Ray ray) const
         return Point; // No intersection
     }
     
-    Point =  IntersectionPoint(ray.origin + (ray.direction * distance)); //o * dt
+    Point =  IntersectionPoint(this, ray.origin + (ray.direction * distance), Vector(), this->getColor()); //o * dt
     return Point;
 }

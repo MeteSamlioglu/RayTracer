@@ -7,7 +7,9 @@ set(PROJECT_INCLUDE_DIR ${PROJECT_DIR}/include)
 set(PROJECT_SOURCE_DIR ${PROJECT_DIR}/src)
 
 set(PROJECT_SOURCES
-	    ${PROJECT_SOURCE_DIR}/Scene.cpp
+            ${PROJECT_SOURCE_DIR}/Objects.cpp
+	        ${PROJECT_SOURCE_DIR}/Scene.cpp
+            ${PROJECT_SOURCE_DIR}/RGBColor.cpp
             ${PROJECT_SOURCE_DIR}/ImagePlane.cpp
             ${PROJECT_SOURCE_DIR}/LightSource.cpp
             ${PROJECT_SOURCE_DIR}/Camera.cpp
@@ -19,11 +21,13 @@ set(PROJECT_SOURCES
             ${PROJECT_SOURCE_DIR}/Ray.cpp
             ${PROJECT_SOURCE_DIR}/main.cpp)
 set(PROJECT_HEADERS
+            ${PROJECT_SOURCE_DIR}/Objects.hpp
             ${PROJECT_SOURCE_DIR}/Scene.hpp
+            ${PROJECT_SOURCE_DIR}/RGBColor.hpp
             ${PROJECT_SOURCE_DIR}/ImagePlane.hpp
             ${PROJECT_SOURCE_DIR}/LightSource.hpp
-            ${PROJECT_SOURCE_DIR}/IntersectionPoint.hpp
             ${PROJECT_SOURCE_DIR}/Sphere.hpp
+            ${PROJECT_SOURCE_DIR}/IntersectionPoint.hpp
  	        ${PROJECT_SOURCE_DIR}/Vector.hpp
             ${PROJECT_SOURCE_DIR}/Camera.hpp
             ${PROJECT_SOURCE_DIR}/Material.hpp

@@ -14,6 +14,8 @@
 #include"Sphere.hpp"
 #include"ImagePlane.hpp"
 #include"IntersectionPoint.hpp"
+#include"Objects.hpp"
+
 
 class Scene
 {
@@ -21,20 +23,27 @@ class Scene
         Scene(int height, int width)
             :planeWidth(width), planeHeight(height)
         {
-            spheres.push_back(Sphere(150, Vector(-100, 0, 0)));
-            spheres.push_back(Sphere(-150, Vector(100, 0, 0)));
+            objects.push_back(new Sphere(150, Vector(-100, 0, 0), RGBColor(1.0, 0.0, 0.0)));
+            objects.push_back(new Sphere(-150, Vector(100, 0, 0), RGBColor(0.0, 1.0, 0.0)));
         }
         int getHight() const;
         int getWidth() const;
-        
+        ~Scene();
         void traceRays(std::string);
         RGBColor castRay(int, int);
     private:
         int planeWidth;
         int planeHeight;
-        std::vector<Sphere> spheres;
+        std::vector<Objects*> objects;
 
 };
+Scene::~Scene()
+{
+    for(std::vector<Objects*>::iterator itr = objects.begin(); itr < objects.end(); itr++)
+    {
+        delete *itr;
+    }
+}
 void Scene::traceRays(std::string file)
 {
     ImagePlane image(planeWidth, planeHeight);
@@ -54,17 +63,18 @@ RGBColor Scene::castRay(int x, int y)
     int rayY = y - planeHeight / 2;
 
     Ray ray(Vector(rayX, rayY, -100), Vector(rayX, rayY, -99));
-    for (std::vector<Sphere>::iterator itr = spheres.begin(); itr < spheres.end(); itr++) {
+    for (std::vector<Objects*>::iterator itr = objects.begin(); itr < objects.end(); itr++) {
         
-        IntersectionPoint intersection = itr->checkIntersection(ray);
+        IntersectionPoint intersection = (*itr)->checkIntersection(ray);
 
         if (intersection.isIntersected() == true) 
         {
-            return RGBColor(1.0, 1.0, 1.0); // Set interesction points to white
+            //return RGBColor(1.0, 1.0, 1.0); // Set interesction points to white
+            return intersection.getColor();
         }
     }
 
-    return RGBColor(0.0, 0.0, 0.0); // Set to Black
+    return RGBColor(0.0, 0.0, 1.0); // Set to Black
 }
 
 

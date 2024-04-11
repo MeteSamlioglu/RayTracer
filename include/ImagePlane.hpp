@@ -1,21 +1,7 @@
 #ifndef IMAGEPLANE_HPP
 #define IMAGEPLANE_hPP
 
-class RGBColor
-{
-    public:
-        RGBColor(double r_, double g_, double b_);
-        RGBColor(double r_, double g_, double b_, double filter_);
-        double getR() const;
-        double getG() const;
-        double getB() const;
-    private:
-        double r;
-        double g;
-        double b;
-        double filter;
-};
-
+#include"RGBColor.hpp"
 
 class ImagePlane
 {
