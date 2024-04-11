@@ -13,7 +13,7 @@
 #include"Vector.hpp"
 #include"Sphere.hpp"
 #include"ImagePlane.hpp"
-
+#include"IntersectionPoint.hpp"
 
 class Scene
 {
@@ -22,7 +22,7 @@ class Scene
             :planeWidth(width), planeHeight(height)
         {
             spheres.push_back(Sphere(150, Vector(-100, 0, 0)));
-            spheres.push_back(Sphere(150, Vector(100, 0, 0)));
+            spheres.push_back(Sphere(-150, Vector(100, 0, 0)));
         }
         int getHight() const;
         int getWidth() const;
@@ -56,11 +56,10 @@ RGBColor Scene::castRay(int x, int y)
     Ray ray(Vector(rayX, rayY, -100), Vector(rayX, rayY, -99));
     for (std::vector<Sphere>::iterator itr = spheres.begin(); itr < spheres.end(); itr++) {
         
-        bool intersection = itr->checkIntersection(ray);
+        IntersectionPoint intersection = itr->checkIntersection(ray);
 
-        if (intersection == true) 
+        if (intersection.isIntersected() == true) 
         {
-            //std::cout<<"Pixel is returned"<<std::endl;
             return RGBColor(1.0, 1.0, 1.0); // Set interesction points to white
         }
     }

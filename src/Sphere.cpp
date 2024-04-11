@@ -1,11 +1,12 @@
 /*Sphere.cpp*/
 #include"Sphere.hpp"
-
+#include"IntersectionPoint.hpp"
 Sphere::Sphere(double radius_, Vector centerPoint_)
     : radius(radius_), centerPoint(centerPoint_)
 {}
-bool Sphere::checkIntersection(Ray ray) const
+IntersectionPoint Sphere::checkIntersection(Ray ray) const
 {
+    IntersectionPoint Point = IntersectionPoint(); //default intersection point 
     double roots, root1, root2, distance = 0.0;
     /* To write the sphere equation in vector form (p - c).(p - c ) - R^2 */
     Vector distanceVector = ray.origin - centerPoint; //(p - c) or (o - c)
@@ -18,7 +19,7 @@ bool Sphere::checkIntersection(Ray ray) const
     /* Check Intersection Roots*/
     if(delta < 0)
     {
-        return false; // No intersection
+        return Point; // No intersection
     }
     delta = sqrt(delta);
     //Find roots (-b +/- sqrt)(delta)/2*A
@@ -43,8 +44,9 @@ bool Sphere::checkIntersection(Ray ray) const
 
     if(distance < 0)
     {
-        return false; // No intersection
+        return Point; // No intersection
     }
     
-    return true;
+    Point =  IntersectionPoint(ray.origin + (ray.direction * distance)); //o * dt
+    return Point;
 }

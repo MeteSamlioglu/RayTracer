@@ -11,6 +11,7 @@ set(PROJECT_SOURCES
             ${PROJECT_SOURCE_DIR}/ImagePlane.cpp
             ${PROJECT_SOURCE_DIR}/LightSource.cpp
             ${PROJECT_SOURCE_DIR}/Camera.cpp
+            ${PROJECT_SOURCE_DIR}/IntersectionPoint.cpp
             ${PROJECT_SOURCE_DIR}/Sphere.cpp
             ${PROJECT_SOURCE_DIR}/Vector.cpp
             ${PROJECT_SOURCE_DIR}/Material.cpp
@@ -21,6 +22,7 @@ set(PROJECT_HEADERS
             ${PROJECT_SOURCE_DIR}/Scene.hpp
             ${PROJECT_SOURCE_DIR}/ImagePlane.hpp
             ${PROJECT_SOURCE_DIR}/LightSource.hpp
+            ${PROJECT_SOURCE_DIR}/IntersectionPoint.hpp
             ${PROJECT_SOURCE_DIR}/Sphere.hpp
  	        ${PROJECT_SOURCE_DIR}/Vector.hpp
             ${PROJECT_SOURCE_DIR}/Camera.hpp
