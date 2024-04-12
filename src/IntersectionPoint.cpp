@@ -8,10 +8,12 @@ IntersectionPoint::IntersectionPoint()
     intersectedObject = nullptr;
     normal = Vector();
     color = RGBColor();
+    distance = 0.0;
 }
 
-IntersectionPoint::IntersectionPoint(Objects* object, Vector point, Vector normal_, RGBColor color_)
-    : point(point), intersectedObject(object), normal(normal_), color(color_) {
+IntersectionPoint::IntersectionPoint(Objects* object, Vector point, Vector normal_, RGBColor color_, double distance_)
+    : point(point), intersectedObject(object), normal(normal_), color(color_), distance(distance_) 
+{
     isObjectIntsersected = true;
 }
 
@@ -24,6 +26,15 @@ void IntersectionPoint::updateIntersectionStatus(bool val, Vector point_)
 bool IntersectionPoint::isIntersected() const
 {
     return isObjectIntsersected;
+}
+void IntersectionPoint::setDistance(double distance_)
+{
+    distance = distance_;
+}
+
+double IntersectionPoint::getDistance() const
+{
+    return distance;
 }
 
 Vector IntersectionPoint::getIntersectionPoint() const

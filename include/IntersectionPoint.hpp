@@ -11,9 +11,11 @@ class IntersectionPoint
 {
     public:
         IntersectionPoint();
-        IntersectionPoint(Objects* object, Vector point, Vector normal_, RGBColor color_); 
+        IntersectionPoint(Objects* object, Vector point, Vector normal_, RGBColor color_, double distance_); 
         void updateIntersectionStatus(bool val, Vector point_);
         bool isIntersected() const;
+        double getDistance() const;
+        void setDistance(double distance_);
         Vector getIntersectionPoint() const;
         Vector getNormalVector() const;
         Objects* getIntersectedObject() const;
@@ -26,6 +28,7 @@ class IntersectionPoint
         Vector normal;
         Objects* intersectedObject;
         RGBColor color;
+        double distance;
 
 };
 

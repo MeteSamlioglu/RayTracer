@@ -1,6 +1,8 @@
 /*Sphere.cpp*/
+#include<iostream>
 #include"Sphere.hpp"
 #include"IntersectionPoint.hpp"
+#include<math.h>
 Sphere::Sphere(double radius_, Vector centerPoint_, RGBColor color_)
     : radius(radius_), centerPoint(centerPoint_), color(color_)
 {}
@@ -14,10 +16,11 @@ IntersectionPoint Sphere::checkIntersection(Ray ray)
     double roots, root1, root2, distance = 0.0;
     /* To write the sphere equation in vector form (p - c).(p - c ) - R^2 */
     Vector distanceVector = ray.origin - centerPoint; //(p - c) or (o - c)
-
+    
     double A = ray.direction.dotProduct(ray.direction); // d*d.t^2 coeff
-    double B = 2*distanceVector.dotProduct(ray.direction);// 2*(o-c)*d
+    double B = distanceVector.dotProduct(ray.direction)*2;// 2*(o-c)*d
     double C = distanceVector.dotProduct(distanceVector) - (radius*radius); //(o-c)(o-c) - R^2
+
 
     double delta = B * B - 4 * A * C; //B2-4AC
     /* Check Intersection Roots*/
@@ -46,11 +49,16 @@ IntersectionPoint Sphere::checkIntersection(Ray ray)
     if(distance < 0)
         distance = root2;
 
-    if(distance < 0)
+    if(distance < 0 ||isnan(distance))
     {
         return Point; // No intersection
     }
+    Vector intersection_point = ray.origin + (ray.direction * distance);
+    Vector normal = (intersection_point - centerPoint).normalize();
     
-    Point =  IntersectionPoint(this, ray.origin + (ray.direction * distance), Vector(), this->getColor()); //o * dt
+    Point =  IntersectionPoint(this, intersection_point, normal, RGBColor(fabs(normal.getX()), fabs(normal.getY()), fabs(normal.getZ())), distance); //o * dt
+    //Point =  IntersectionPoint(this, intersection_point, normal, RGBColor(1.0, 0.0, 0.0), distance); //o * dt
+
     return Point;
 }
+ 

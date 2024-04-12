@@ -2,7 +2,7 @@
 #include"RGBColor.hpp"
 
 RGBColor::RGBColor()
-    :r(0.0), g(0.0), b(0.0)
+    :r(0.0), g(0.0), b(0.0), filter(1.0)
 {}
 
 RGBColor::RGBColor(double r_, double g_, double b_)

@@ -8,10 +8,12 @@ class Ray
     public:
         Ray(Vector o, Vector d)
             :origin(o), direction(d)
-        {}
+        {
+           // direction = d.normalize();  
+        }
 
-            Vector origin;
-            Vector direction;
+        Vector origin;
+        Vector direction;
 };
 
 #endif

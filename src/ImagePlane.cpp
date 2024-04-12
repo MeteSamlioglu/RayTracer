@@ -63,6 +63,7 @@ void ImagePlane::WritePpm(const char *outfile, bool scale_color)
 }
 RGBColor ImagePlane::getPixel(int x, int y)
 { 
+
     return pixelMap[x][y];
 }
 
@@ -81,3 +82,4 @@ void ImagePlane::setPixel(int x, int y, RGBColor pixel)
     max = (pixel.getG() > max) ? pixel.getG() : max;
     max = (pixel.getB() > max) ? pixel.getB() : max;
 }   
+

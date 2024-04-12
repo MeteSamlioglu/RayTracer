@@ -11,7 +11,7 @@ Vector::Vector(double val)
 {}
 
 Vector::Vector(double xVal, double yVal, double zVal)
-    :x(xVal), y(yVal), z(xVal)
+    :x(xVal), y(yVal), z(zVal)
 {}
 
 Vector Vector::crossProduct(Vector const &v) const
@@ -31,6 +31,19 @@ double Vector::getVectorLength() const
 float Vector::dotProduct(Vector const &v) const
 {
     return x*v.x + y*v.y + z*v.z; //x^2 + y^2 + z^2
+}
+
+double Vector::getX() const
+{
+    return x;
+}
+double Vector::getY() const
+{
+    return y;
+}
+double Vector::getZ() const
+{
+    return z;
 }
 
 Vector Vector::operator +(Vector const &v) const
@@ -88,11 +101,9 @@ Vector& Vector::operator /=(Vector const &v)
     return *this;
 }
 
-Vector Vector::operator *(double val) const
-{
-    Vector productRes = Vector(x*val, y*val, z*val);
-    
-    return productRes;
+Vector Vector::operator *(double const val) const
+{    
+    return Vector(x*val, y*val, z*val);
 }
 
 Vector& Vector::operator *=(double val)
@@ -111,15 +122,19 @@ Vector Vector::operator /(double val) const
     return divisonRes;
 }
 
-Vector& Vector::operator /=(double val)
+Vector& Vector::operator /=(double const val)
 {
-    x/= val;
-    y/= val;
-    z/= val;
+    x /= val;
+    y /= val;
+    z /= val;
 
     return *this;
 }
 
+Vector Vector::normalize()
+{
+    return (*this) /= this->getVectorLength();
+}
 
 
 
