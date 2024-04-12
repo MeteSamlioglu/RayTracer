@@ -56,9 +56,8 @@ IntersectionPoint Sphere::checkIntersection(Ray ray)
     Vector intersection_point = ray.origin + (ray.direction * distance);
     Vector normal = (intersection_point - centerPoint).normalize();
     
-    Point =  IntersectionPoint(this, intersection_point, normal, RGBColor(fabs(normal.getX()), fabs(normal.getY()), fabs(normal.getZ())), distance); //o * dt
-    //Point =  IntersectionPoint(this, intersection_point, normal, RGBColor(1.0, 0.0, 0.0), distance); //o * dt
-
+    //Point =  IntersectionPoint(this, intersection_point, normal, RGBColor(fabs(normal.getX()), fabs(normal.getY()), fabs(normal.getZ())), distance); //o * dt
+    Point =  IntersectionPoint(this, intersection_point, normal, getColor(), distance); //o * dt
     return Point;
 }
  

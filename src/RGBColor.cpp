@@ -26,3 +26,25 @@ double RGBColor::getB() const
 {
     return b;
 }
+
+RGBColor RGBColor::operator +(RGBColor const &p) const
+{
+    RGBColor sum;
+
+    sum.r = p.r + r;
+    sum.g = p.g + g;
+    sum.b = p.b + b;
+
+    return sum;
+}
+
+RGBColor RGBColor::operator* (double amount) const
+{
+    RGBColor outColor;
+    
+    outColor.r = r*amount;
+    outColor.g = g*amount;
+    outColor.b = b*amount;
+
+    return outColor;
+}

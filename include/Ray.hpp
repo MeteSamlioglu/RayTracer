@@ -9,7 +9,7 @@ class Ray
         Ray(Vector o, Vector d)
             :origin(o), direction(d)
         {
-           // direction = d.normalize();  
+           direction = d.normalize();  
         }
 
         Vector origin;
