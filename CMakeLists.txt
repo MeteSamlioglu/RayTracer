@@ -8,6 +8,7 @@ set(PROJECT_SOURCE_DIR ${PROJECT_DIR}/src)
 
 set(PROJECT_SOURCES
             ${PROJECT_SOURCE_DIR}/Objects.cpp
+            ${PROJECT_SOURCE_DIR}/Triangle.cpp
 	        ${PROJECT_SOURCE_DIR}/Scene.cpp
             ${PROJECT_SOURCE_DIR}/RGBColor.cpp
             ${PROJECT_SOURCE_DIR}/ImagePlane.cpp
@@ -22,6 +23,7 @@ set(PROJECT_SOURCES
             ${PROJECT_SOURCE_DIR}/main.cpp)
 set(PROJECT_HEADERS
             ${PROJECT_SOURCE_DIR}/Objects.hpp
+            ${PROJECT_SOURCE_DIR}/Triangle.hpp
             ${PROJECT_SOURCE_DIR}/Scene.hpp
             ${PROJECT_SOURCE_DIR}/RGBColor.hpp
             ${PROJECT_SOURCE_DIR}/ImagePlane.hpp

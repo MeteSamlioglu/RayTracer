@@ -7,7 +7,7 @@ class Ray
 {
     public:
         Ray(Vector o, Vector d)
-            :origin(o), direction(d)
+            :origin(o)
         {
            direction = d.normalize();  
         }

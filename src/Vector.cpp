@@ -17,7 +17,7 @@ Vector::Vector(double xVal, double yVal, double zVal)
 Vector Vector::crossProduct(Vector const &v) const
 {
     Vector crossProduct_ = Vector(y*v.z - v.y*z, v.x*z - x*v.z, x*v.y - v.x*y);
-
+                                
     return crossProduct_;
 }
 

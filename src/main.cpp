@@ -12,6 +12,7 @@
 #include"Vector.hpp"
 #include"Material.hpp"
 #include"Vector.hpp"
+#include"Triangle.hpp"
 #include"Sphere.hpp"
 #include"ImagePlane.hpp"
 #include"IntersectionPoint.hpp"
@@ -102,7 +103,6 @@ RGBColor Scene::performLighting(IntersectionPoint point)
 {
     RGBColor diffuseColor = getDiffuseLigt(point);
     RGBColor ambientColor = getAmbientLight(point);
-
     return diffuseColor + ambientColor;
 }
 
@@ -119,7 +119,8 @@ RGBColor Scene::getDiffuseLigt(IntersectionPoint point)
         */
         Vector lightDirection = lightOffset.normalize();
         double dotProduct = point.getNormalVector().dotProduct(lightDirection);
-    
+        
+
         /**
          * Intersection is facing light.
         */
@@ -144,7 +145,7 @@ RGBColor Scene::castRay(int x, int y)
     Ray ray(Vector(rayX, rayY, 100), Vector(0, 0, -1));
     
     IntersectionPoint intersection = findClosestIntersection(ray);
-
+    
     if(intersection.isIntersected())
         return performLighting(intersection);
     else
@@ -162,10 +163,13 @@ int main()
     
     std::string outputFile = "Scene.ppm";
 
-    myScene.addObjectToScene(new Sphere(150, Vector(-150, 0, 0), RGBColor(1.0, 0.0, 0.0)));
+    myScene.addObjectToScene(new Sphere(150, Vector(-300, 0, 0), RGBColor(1.0, 0.0, 0.0)));
     
-    myScene.addObjectToScene(new Sphere(100, Vector(150, 0, 0), RGBColor(0.0, 1.0, 0.0)));
+    myScene.addObjectToScene(new Sphere(100, Vector(300, 0, 0), RGBColor(0.0, 1.0, 0.0)));  
 
+    myScene.addObjectToScene(new Triangle(Vector(150, 0, 0), Vector(0, 150, 0), Vector(0, 0, 150)));
+
+    
     myScene.addLightToScene(new LightSource(Vector(300, 100, 0)));
 
     myScene.traceRays(outputFile);
