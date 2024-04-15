@@ -4,7 +4,12 @@
 /* Code*/
 
 
-double Objects::getShininess()
+double Objects::getShininess() const
 {
     return NOT_SHINY;
+}
+
+double Objects::getReflectivity() const
+{
+    return NOT_REFLECTIVE;
 }

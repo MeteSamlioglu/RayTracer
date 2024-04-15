@@ -211,9 +211,9 @@ int main()
     
     std::string outputFile = "Scene.ppm";
 
-    myScene.addObjectToScene(new Sphere(150, Vector(-150, 0, -150), RGBColor(1.0, 0.0, 0.0), 10));
+    myScene.addObjectToScene(new Sphere(150, Vector(-150, 0, -150), RGBColor(1.0, 0.0, 0.0), 10, 0.5));
     
-    myScene.addObjectToScene(new Sphere(25, Vector(50, 50, 25), RGBColor(0.0, 1.0, 0.0), 10));  
+    myScene.addObjectToScene(new Sphere(25, Vector(50, 50, 25), RGBColor(0.0, 1.0, 0.0), 10, 0.5));  
     //myScene.addObjectToScene(new Triangle(Vector(150, 0, 0), Vector(0, 150, 0), Vector(0, 0, 150)));
 
     myScene.addLightToScene(new LightSource(Vector(300, 100, 150)));

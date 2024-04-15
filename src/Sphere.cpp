@@ -3,8 +3,8 @@
 #include"Sphere.hpp"
 #include"IntersectionPoint.hpp"
 #include<math.h>
-Sphere::Sphere(double radius_, Vector centerPoint_, RGBColor color_, double shininess_)
-    : radius(radius_), centerPoint(centerPoint_), color(color_), shininess(shininess_)
+Sphere::Sphere(double radius_, Vector centerPoint_, RGBColor color_, double shininess_, double reflectivity_)
+    : radius(radius_), centerPoint(centerPoint_), color(color_), shininess(shininess_), reflectivity(reflectivity_)
 {}
 RGBColor Sphere::getColor() const
 {
@@ -64,4 +64,9 @@ IntersectionPoint Sphere::checkIntersection(Ray ray)
 double Sphere::getShininess() const
 {
     return shininess;
+}
+
+double Sphere::getReflectivity() const
+{
+    return reflectivity;
 }
