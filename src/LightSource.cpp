@@ -2,8 +2,8 @@
 #include"LightSource.hpp"
 #include<iostream>
 
-LightSource::LightSource(Vector pos)
-    :position(pos)
+LightSource::LightSource(Vector pos, double intensity_)
+    :position(pos), intensity(intensity_)
 {
     //std::cout<<"LightSource is initialized"<<std::endl;
 }
@@ -11,4 +11,9 @@ LightSource::LightSource(Vector pos)
 Vector LightSource::getPosition() const
 {
     return position;
+}
+
+double LightSource::getIntensity() const
+{
+    return intensity;
 }

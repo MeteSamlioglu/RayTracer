@@ -147,7 +147,7 @@ RGBColor Scene::getSpecularAndDiffuseLightning(IntersectionPoint point)
                 continue;
             }
             
-            diffuseColor = diffuseColor + (point.getColor() * dotProduct);
+            diffuseColor = (diffuseColor + (point.getColor() * dotProduct))*light->getIntensity();
             specularColor = specularColor + getSpecularLighting(point, light);
        }
     }
@@ -187,7 +187,7 @@ RGBColor Scene::getSpecularLighting(IntersectionPoint point_, LightSource* light
         return specularColor;
     }
     //double reflectivity = point_.getIntersectedObject()->getReflectivity();
-    double specularAmount = pow(dot, shininess);
+    double specularAmount = pow(dot, shininess) * light_->getIntensity();
     specularColor.setR(specularAmount);
     specularColor.setG(specularAmount);
     specularColor.setB(specularAmount);
@@ -248,10 +248,10 @@ int main()
     
     myScene.addObjectToScene(new Sphere(100, Vector(0, 100, -150), RGBColor(0.0, 0.0, 1.0), 100, 0.5));  
 
-    //myScene.addObjectToScene(new Triangle(Vector(150, 0, 0), Vector(0, 150, 0), Vector(0, 0, 150)));
+    myScene.addObjectToScene(new Triangle(Vector(150, 0, 0), Vector(0, 150, 0), Vector(0, 0, 150)));
 
-    myScene.addLightToScene(new LightSource(Vector(300, 100, 150)));
-    myScene.addLightToScene(new LightSource(Vector(-300, 100, 150)));
+    myScene.addLightToScene(new LightSource(Vector(300, 100, 150), 1.0));
+    myScene.addLightToScene(new LightSource(Vector(-300, 100, 150), 1.0));
 
     myScene.traceRays(outputFile);
 

@@ -11,7 +11,7 @@ class Vector
         Vector crossProduct(const Vector& v) const;
         
         double getVectorLength() const;
-        float dotProduct(Vector const& v) const;
+        double dotProduct(Vector const& v) const;
         double getX() const;
         double getY() const;
         double getZ() const;

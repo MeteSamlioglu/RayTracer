@@ -5,10 +5,12 @@
 class LightSource
 {
     public:
-        LightSource(Vector pos);
+        LightSource(Vector pos, double intensity_);
         Vector getPosition() const;
+        double getIntensity() const;
     private:   
         Vector position; 
+        double intensity;
 };
 
 #endif

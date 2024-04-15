@@ -28,7 +28,7 @@ double Vector::getVectorLength() const
     return length;
 }
 
-float Vector::dotProduct(Vector const &v) const
+double Vector::dotProduct(Vector const &v) const
 {
     return x*v.x + y*v.y + z*v.z; //x^2 + y^2 + z^2
 }
