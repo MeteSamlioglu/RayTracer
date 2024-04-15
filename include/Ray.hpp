@@ -6,12 +6,12 @@
 class Ray
 {
     public:
-        Ray(Vector o, Vector d)
-            :origin(o)
+        Ray(Vector o, Vector d, int reflections)
+            :origin(o), reflectionsRemaining(reflections)
         {
            direction = d.normalize();  
         }
-        Ray() :origin(Vector()), direction(Vector())
+        Ray() :origin(Vector()), direction(Vector()), reflectionsRemaining(-1)
         {}
 
         // Vector getOrigin();
@@ -19,6 +19,7 @@ class Ray
         
         Vector origin;
         Vector direction;
+        int reflectionsRemaining;
 };
 
 #endif

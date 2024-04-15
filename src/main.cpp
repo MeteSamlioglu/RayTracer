@@ -24,8 +24,8 @@
 class Scene
 {
     public:
-        Scene(int height, int width)
-            :planeWidth(width), planeHeight(height)
+        Scene(int height, int width, int maxReflections_)
+            :planeWidth(width), planeHeight(height), maxReflections(maxReflections_)
         {
             // objects.push_back(new Sphere(150, Vector(-100, 0, 0), RGBColor(1.0, 0.0, 0.0)));
             // objects.push_back(new Sphere(150, Vector(100, 0, 0), RGBColor(0.0, 1.0, 0.0)));
@@ -59,7 +59,7 @@ class Scene
         int planeHeight;
         std::vector<Objects*> objects;
         std::vector<LightSource*> lights;
-
+        int maxReflections;
 };
 Scene::~Scene()
 {
@@ -131,7 +131,7 @@ RGBColor Scene::getSpecularAndDiffuseLightning(IntersectionPoint point)
         */
        if(dotProduct >= 0.0f)
        {
-            Ray shadow = Ray(point.getIntersectionPoint() + lightDirection, lightDirection);
+            Ray shadow = Ray(point.getIntersectionPoint() + lightDirection, lightDirection, 1);
             IntersectionPoint shadowIntersection = findClosestIntersection(shadow);
             if(shadowIntersection.isIntersected())
             {
@@ -190,7 +190,7 @@ RGBColor Scene::castRay(int x, int y)
     int rayX  = x - planeWidth / 2;
     int rayY = y - planeHeight / 2;
 
-    Ray ray(Vector(rayX, rayY, 100), Vector(0, 0, -1));
+    Ray ray(Vector(rayX, rayY, 100), Vector(0, 0, -1), maxReflections);
     
     IntersectionPoint intersection = findClosestIntersection(ray);
     
@@ -205,7 +205,7 @@ RGBColor Scene::castRay(int x, int y)
 
 int main()
 {
-    Scene myScene(600, 600);
+    Scene myScene(600, 600, 10);
     
     std::cout<<"Program is on run"<<std::endl;
     
