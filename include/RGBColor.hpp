@@ -2,6 +2,10 @@
 #define RGBCOLOR_HPP
 
 
+#define NTZ(X) (isnan((X)) ? 0.0 : (X))
+#include <math.h>
+
+
 class RGBColor
 {
     public:

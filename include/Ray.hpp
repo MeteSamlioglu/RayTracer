@@ -10,6 +10,7 @@ class Ray
             :origin(o), reflectionsRemaining(reflections)
         {
            direction = d.normalize();  
+           origin+=(direction /1000); /* To prevent intersecting with itself we forward it a little bit forward*/
         }
         Ray() :origin(Vector()), direction(Vector()), reflectionsRemaining(-1)
         {}

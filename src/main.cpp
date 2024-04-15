@@ -34,7 +34,9 @@ class Scene
         int getWidth() const;
         ~Scene();
         void traceRays(std::string);
-        RGBColor castRay(int, int);
+
+        Ray getRay(int , int);
+        RGBColor castRay(Ray ray);
 
         IntersectionPoint findClosestIntersection(Ray ray);
         
@@ -43,6 +45,8 @@ class Scene
         RGBColor getAmbientLight(IntersectionPoint point_);
         RGBColor getSpecularLighting(IntersectionPoint point, LightSource* light_);
         RGBColor getSpecularAndDiffuseLightning(IntersectionPoint point_);
+        RGBColor getReflectiveLighting(IntersectionPoint point_);
+        Vector reflectVector(Vector vector, Vector normal);
         
         void addObjectToScene(Objects* sceneObject)
         {
@@ -79,7 +83,7 @@ void Scene::traceRays(std::string file)
     {
         for(int y = 0; y < planeHeight; y++)
         {
-            image.setPixel(x, y, castRay(x, y));
+            image.setPixel(x, y, castRay(getRay(x, y)));
         }
     }
     image.WritePpm(file.c_str(), true);
@@ -106,8 +110,9 @@ RGBColor Scene::performLighting(IntersectionPoint point)
 {
     RGBColor ambientColor = getAmbientLight(point);
     RGBColor diffuseAndSpecularColor = getSpecularAndDiffuseLightning(point);
+    RGBColor reflectedColor = getReflectiveLighting(point);
 
-    return diffuseAndSpecularColor + ambientColor;
+    return diffuseAndSpecularColor + ambientColor + reflectedColor;
 }
 
 RGBColor Scene::getSpecularAndDiffuseLightning(IntersectionPoint point)
@@ -131,7 +136,7 @@ RGBColor Scene::getSpecularAndDiffuseLightning(IntersectionPoint point)
         */
        if(dotProduct >= 0.0f)
        {
-            Ray shadow = Ray(point.getIntersectionPoint() + lightDirection, lightDirection, 1);
+            Ray shadow = Ray(point.getIntersectionPoint(), lightDirection, 1);
             IntersectionPoint shadowIntersection = findClosestIntersection(shadow);
             if(shadowIntersection.isIntersected())
             {
@@ -149,6 +154,7 @@ RGBColor Scene::getSpecularAndDiffuseLightning(IntersectionPoint point)
     
     return diffuseColor + specularColor;
 }
+
 RGBColor Scene::getAmbientLight(IntersectionPoint point_)
 {
     return point_.getColor() * 0.2;
@@ -166,18 +172,22 @@ RGBColor Scene::getSpecularLighting(IntersectionPoint point_, LightSource* light
 
     Vector view = (point_.ray.origin - point_.getIntersectionPoint()).normalize();
     Vector lightOffset = light_->getPosition() - point_.getIntersectionPoint();
-    Vector L = lightOffset.normalize();
-    Vector N = point_.getNormalVector();
-
-    Vector R = N * 2 * L.dotProduct(N) - L;
     
-    double dotProd = view.dotProduct(R);
-    if( dotProd <= 0)
+    //Vector L = lightOffset.normalize();
+    //Vector N = point_.getNormalVector();
+
+    Vector reflected = reflectVector(lightOffset.normalize(), point_.getNormalVector());
+
+    // Vector R = N * 2 * L.dotProduct(N) - L;
+    
+    // double dotProd = view.dotProduct(R);
+    double dot = view.dotProduct(reflected);
+    if( dot <= 0)
     {
         return specularColor;
     }
-
-    double specularAmount = pow(dotProd, shininess);
+    //double reflectivity = point_.getIntersectedObject()->getReflectivity();
+    double specularAmount = pow(dot, shininess);
     specularColor.setR(specularAmount);
     specularColor.setG(specularAmount);
     specularColor.setB(specularAmount);
@@ -185,23 +195,44 @@ RGBColor Scene::getSpecularLighting(IntersectionPoint point_, LightSource* light
     return specularColor;
 }
 
-RGBColor Scene::castRay(int x, int y)
+Ray Scene::getRay(int x, int y)
 {
     int rayX  = x - planeWidth / 2;
     int rayY = y - planeHeight / 2;
 
-    Ray ray(Vector(rayX, rayY, 100), Vector(0, 0, -1), maxReflections);
-    
-    IntersectionPoint intersection = findClosestIntersection(ray);
-    
-    if(intersection.isIntersected())
-        return performLighting(intersection);
-    else
-        return RGBColor();
-    //    return RGBColor(0.0, 0.0, 0.6); //Set background to black
-
+    return Ray(Vector(rayX, rayY, 100), Vector(0, 0, -1), maxReflections);
 }
 
+RGBColor Scene::castRay(Ray ray) {
+   IntersectionPoint intersection = findClosestIntersection(ray);
+
+   if (intersection.isIntersected()) {
+      return performLighting(intersection);
+   } else {
+      return RGBColor();
+   }
+}
+RGBColor Scene::getReflectiveLighting(IntersectionPoint intersection_)
+{
+
+    double reflectivityCoeff = intersection_.getIntersectedObject()->getReflectivity();
+    int reflectionsRemaining = intersection_.ray.reflectionsRemaining;
+
+    if(reflectivityCoeff == NOT_REFLECTIVE || reflectionsRemaining <= 0)
+    {
+        return RGBColor();
+    }
+    else
+    {
+        Vector reflected = reflectVector(intersection_.ray.origin, intersection_.getNormalVector());
+        Ray reflectedRay(intersection_.getIntersectionPoint(), reflected, reflectionsRemaining - 1);
+        return castRay(reflectedRay) * reflectivityCoeff;
+    }
+}
+Vector Scene::reflectVector(Vector vector, Vector normal)
+{
+    return normal * 2 * vector.dotProduct(normal) - vector;
+}
 
 int main()
 {
@@ -211,9 +242,12 @@ int main()
     
     std::string outputFile = "Scene.ppm";
 
-    myScene.addObjectToScene(new Sphere(150, Vector(-150, 0, -150), RGBColor(1.0, 0.0, 0.0), 10, 0.5));
+    myScene.addObjectToScene(new Sphere(100, Vector(-105, -75, -150), RGBColor(1.0, 0.0, 0.0), 100, 0.5));
     
-    myScene.addObjectToScene(new Sphere(25, Vector(50, 50, 25), RGBColor(0.0, 1.0, 0.0), 10, 0.5));  
+    myScene.addObjectToScene(new Sphere(100, Vector(105, -75, -150), RGBColor(0.0, 1.0, 0.0), 5, 0.8));  
+    
+    myScene.addObjectToScene(new Sphere(100, Vector(0, 100, -150), RGBColor(0.0, 0.0, 1.0), 100, 0.5));  
+
     //myScene.addObjectToScene(new Triangle(Vector(150, 0, 0), Vector(0, 150, 0), Vector(0, 0, 150)));
 
     myScene.addLightToScene(new LightSource(Vector(300, 100, 150)));

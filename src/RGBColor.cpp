@@ -45,9 +45,12 @@ RGBColor RGBColor::operator +(RGBColor const &p) const
 {
     RGBColor sum;
 
-    sum.r = p.r + r;
-    sum.g = p.g + g;
-    sum.b = p.b + b;
+    // sum.r = p.r + r;
+    // sum.g = p.g + g;
+    // sum.b = p.b + b;
+    sum.r = NTZ(p.r) + NTZ(r);
+    sum.g = NTZ(p.g) + NTZ(g);
+    sum.b = NTZ(p.b) + NTZ(b);
 
     return sum;
 }
