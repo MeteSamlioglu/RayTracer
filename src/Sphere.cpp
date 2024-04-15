@@ -3,8 +3,8 @@
 #include"Sphere.hpp"
 #include"IntersectionPoint.hpp"
 #include<math.h>
-Sphere::Sphere(double radius_, Vector centerPoint_, RGBColor color_)
-    : radius(radius_), centerPoint(centerPoint_), color(color_)
+Sphere::Sphere(double radius_, Vector centerPoint_, RGBColor color_, double shininess_)
+    : radius(radius_), centerPoint(centerPoint_), color(color_), shininess(shininess_)
 {}
 RGBColor Sphere::getColor() const
 {
@@ -57,7 +57,11 @@ IntersectionPoint Sphere::checkIntersection(Ray ray)
     Vector normal = (intersection_point - centerPoint).normalize();
 
     //Point =  IntersectionPoint(this, intersection_point, normal, RGBColor(fabs(normal.getX()), fabs(normal.getY()), fabs(normal.getZ())), distance); //o * dt
-    Point =  IntersectionPoint(this, intersection_point, normal, getColor(), distance); //o * dt
+    Point =  IntersectionPoint(this, intersection_point, normal, getColor(), distance, ray); //o * dt
     return Point;
 }
  
+double Sphere::getShininess() const
+{
+    return shininess;
+}

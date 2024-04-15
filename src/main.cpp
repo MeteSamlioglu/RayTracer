@@ -37,10 +37,13 @@ class Scene
         RGBColor castRay(int, int);
 
         IntersectionPoint findClosestIntersection(Ray ray);
+        
         RGBColor performLighting(IntersectionPoint point_);
         RGBColor getDiffuseLigt(IntersectionPoint point_);
         RGBColor getAmbientLight(IntersectionPoint point_);
-
+        RGBColor getSpecularLighting(IntersectionPoint point, LightSource* light_);
+        RGBColor getSpecularAndDiffuseLightning(IntersectionPoint point_);
+        
         void addObjectToScene(Objects* sceneObject)
         {
             objects.push_back(sceneObject);
@@ -101,15 +104,17 @@ IntersectionPoint Scene::findClosestIntersection(Ray ray)
 }
 RGBColor Scene::performLighting(IntersectionPoint point)
 {
-    RGBColor diffuseColor = getDiffuseLigt(point);
     RGBColor ambientColor = getAmbientLight(point);
-    return diffuseColor + ambientColor;
+    RGBColor diffuseAndSpecularColor = getSpecularAndDiffuseLightning(point);
+
+    return diffuseAndSpecularColor + ambientColor;
 }
 
-RGBColor Scene::getDiffuseLigt(IntersectionPoint point)
+RGBColor Scene::getSpecularAndDiffuseLightning(IntersectionPoint point)
 {
     RGBColor diffuseColor(0.0, 0.0, 0.0);
-    
+    RGBColor specularColor(0.0, 0.0, 0.0);
+
     for(std::vector<LightSource*>::iterator itr = lights.begin(); itr < lights.end(); itr++)
     {
         LightSource* light = *itr;
@@ -126,15 +131,58 @@ RGBColor Scene::getDiffuseLigt(IntersectionPoint point)
         */
        if(dotProduct >= 0.0f)
        {
+            Ray shadow = Ray(point.getIntersectionPoint() + lightDirection, lightDirection);
+            IntersectionPoint shadowIntersection = findClosestIntersection(shadow);
+            if(shadowIntersection.isIntersected())
+            {
+                /*
+                    Position of object surface is in shadow
+                    continue with other lights
+                */
+                continue;
+            }
+            
             diffuseColor = diffuseColor + (point.getColor() * dotProduct);
+            specularColor = specularColor + getSpecularLighting(point, light);
        }
     }
     
-    return diffuseColor;
+    return diffuseColor + specularColor;
 }
 RGBColor Scene::getAmbientLight(IntersectionPoint point_)
 {
     return point_.getColor() * 0.2;
+}
+
+RGBColor Scene::getSpecularLighting(IntersectionPoint point_, LightSource* light_)
+{
+    RGBColor specularColor(0.0, 0.0, 0.0);
+    double shininess = point_.getIntersectedObject()->getShininess();
+
+    if(shininess == NOT_SHINY)
+    {
+        return specularColor; /* Specular light will not be showen on non shiny objects*/
+    }
+
+    Vector view = (point_.ray.origin - point_.getIntersectionPoint()).normalize();
+    Vector lightOffset = light_->getPosition() - point_.getIntersectionPoint();
+    Vector L = lightOffset.normalize();
+    Vector N = point_.getNormalVector();
+
+    Vector R = N * 2 * L.dotProduct(N) - L;
+    
+    double dotProd = view.dotProduct(R);
+    if( dotProd <= 0)
+    {
+        return specularColor;
+    }
+
+    double specularAmount = pow(dotProd, shininess);
+    specularColor.setR(specularAmount);
+    specularColor.setG(specularAmount);
+    specularColor.setB(specularAmount);
+
+    return specularColor;
 }
 
 RGBColor Scene::castRay(int x, int y)
@@ -157,22 +205,22 @@ RGBColor Scene::castRay(int x, int y)
 
 int main()
 {
-    Scene myScene(500, 500);
+    Scene myScene(600, 600);
     
     std::cout<<"Program is on run"<<std::endl;
     
     std::string outputFile = "Scene.ppm";
 
-    myScene.addObjectToScene(new Sphere(150, Vector(-300, 0, 0), RGBColor(1.0, 0.0, 0.0)));
+    myScene.addObjectToScene(new Sphere(150, Vector(-150, 0, -150), RGBColor(1.0, 0.0, 0.0), 10));
     
-    myScene.addObjectToScene(new Sphere(100, Vector(300, 0, 0), RGBColor(0.0, 1.0, 0.0)));  
+    myScene.addObjectToScene(new Sphere(25, Vector(50, 50, 25), RGBColor(0.0, 1.0, 0.0), 10));  
+    //myScene.addObjectToScene(new Triangle(Vector(150, 0, 0), Vector(0, 150, 0), Vector(0, 0, 150)));
 
-    myScene.addObjectToScene(new Triangle(Vector(150, 0, 0), Vector(0, 150, 0), Vector(0, 0, 150)));
-
-    
-    myScene.addLightToScene(new LightSource(Vector(300, 100, 0)));
+    myScene.addLightToScene(new LightSource(Vector(300, 100, 150)));
+    myScene.addLightToScene(new LightSource(Vector(-300, 100, 150)));
 
     myScene.traceRays(outputFile);
 
     return 0;
 }
+

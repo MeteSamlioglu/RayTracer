@@ -40,7 +40,7 @@ IntersectionPoint Triangle::checkIntersection(Ray ray) {
   if (distance > 0.00001) {
     Vector point = ray.origin + Vector(distance) * ray.direction;
     //return IntersectionPoint(ray, point, distance, normal, ray.material, material, this);
-    return IntersectionPoint(this, point, normal, RGBColor(1.0, 0.0, 0.0),distance);
+    return IntersectionPoint(this, point, normal, RGBColor(1.0, 0.0, 0.0),distance, ray);
   }
 
   //Line Intersection, Not Ray

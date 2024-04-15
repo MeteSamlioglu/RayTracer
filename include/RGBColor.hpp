@@ -12,6 +12,10 @@ class RGBColor
         double getG() const;
         double getB() const;
 
+        void setR(double r_);
+        void setG(double g_);
+        void setB(double b_);
+
         RGBColor operator + (RGBColor const& p) const;
         RGBColor operator * (double amount) const;
 

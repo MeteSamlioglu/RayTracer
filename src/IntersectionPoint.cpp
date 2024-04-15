@@ -9,10 +9,11 @@ IntersectionPoint::IntersectionPoint()
     normal = Vector();
     color = RGBColor();
     distance = 0.0;
+    ray = Ray();
 }
 
-IntersectionPoint::IntersectionPoint(Objects* object, Vector point, Vector normal_, RGBColor color_, double distance_)
-    : point(point), intersectedObject(object), normal(normal_), color(color_), distance(distance_) 
+IntersectionPoint::IntersectionPoint(Objects* object, Vector point, Vector normal_, RGBColor color_, double distance_, Ray ray_)
+    : point(point), intersectedObject(object), normal(normal_), color(color_), distance(distance_), ray(ray_) 
 {
     isObjectIntsersected = true;
 }

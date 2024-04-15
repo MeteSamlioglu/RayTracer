@@ -11,7 +11,12 @@ class Ray
         {
            direction = d.normalize();  
         }
+        Ray() :origin(Vector()), direction(Vector())
+        {}
 
+        // Vector getOrigin();
+        // Vector getDirection();
+        
         Vector origin;
         Vector direction;
 };

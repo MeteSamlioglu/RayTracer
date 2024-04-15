@@ -27,6 +27,20 @@ double RGBColor::getB() const
     return b;
 }
 
+
+void RGBColor::setR(double r_)
+{
+    r = r_;
+}
+void RGBColor::setG(double g_)
+{
+    g = g_;
+}
+void RGBColor::setB(double b_)
+{
+    b = b_;
+}
+
 RGBColor RGBColor::operator +(RGBColor const &p) const
 {
     RGBColor sum;

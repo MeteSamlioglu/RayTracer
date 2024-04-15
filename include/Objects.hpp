@@ -4,12 +4,13 @@
 #include"IntersectionPoint.hpp"
 #include"Ray.hpp"
 
+#define NOT_SHINY -1
 
 class Objects
 {
     public:        
         virtual IntersectionPoint checkIntersection(Ray) = 0;
-
+        virtual double getShininess();
 };
 
 #endif

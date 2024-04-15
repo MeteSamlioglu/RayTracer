@@ -12,13 +12,15 @@ class Sphere : public Objects
 {
     public:
     
-        Sphere(double radius, Vector centerPoint_, RGBColor color_);
+        Sphere(double radius, Vector centerPoint_, RGBColor color_, double shininess_);
         virtual IntersectionPoint checkIntersection(Ray ray);
         RGBColor getColor() const;   
+        virtual double getShininess() const;
     private:
         Vector centerPoint;
         double radius;
         RGBColor color;
+        double shininess;
 };
 
 #endif
